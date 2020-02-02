@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import android.content.Context;
+import android.database.Cursor;
 
 import com.rdeluca118.testmd.DBManager;
+
 /**
  * Helper class for providing sample content for user interfaces created by
  * Android template wizards.
@@ -13,7 +16,9 @@ import com.rdeluca118.testmd.DBManager;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class DummyContent {
-    private DBManager dbm;
+    private DBManager dbm = new DBManager(null);
+    private Cursor c = dbm.getGameList();
+
     /**
      * An array of sample (dummy) items.
      */
@@ -24,12 +29,12 @@ public class DummyContent {
      */
     public static final Map<String, DummyItem> ITEM_MAP =
             new HashMap<String, DummyItem>();
-//    SELECT date,name
-//    FROM game AS a
-//    INNER JOIN player AS b
-//    ON a.winner = b._id
-//    ORDER BY date;
+
+
+
+
     static {
+
         // Add 3 sample items.
         addItem(new DummyItem("1", "May 12 2019",
                 "Rich"));
