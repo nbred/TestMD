@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import android.content.Context;
 import android.database.Cursor;
 
@@ -16,9 +17,6 @@ import com.rdeluca118.testmd.DBManager;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class DummyContent {
-    private DBManager dbm = new DBManager(null);
-    private Cursor c = dbm.getGameList();
-
     /**
      * An array of sample (dummy) items.
      */
@@ -30,20 +28,16 @@ public class DummyContent {
     public static final Map<String, DummyItem> ITEM_MAP =
             new HashMap<String, DummyItem>();
 
+    public static void loadData(Cursor c) {
+        assert c instanceof Cursor;
 
-
-
-    static {
-
-        // Add 3 sample items.
-        addItem(new DummyItem("1", "May 12 2019",
-                "Rich"));
-        addItem(new DummyItem("2", "June 22 2019",
-                "Rich"));
-        addItem(new DummyItem("3", "july 24 2019",
-                "Babe"));
+        int i = 1;
+        c.moveToFirst();
+        do{
+            addItem(new DummyItem(String.valueOf(c.getInt(0)),c.getString(1), c.getString(7)));
+            i++;
+        }while( c.moveToNext());
     }
-
 
     private static void addItem(DummyItem item) {
         ITEMS.add(item);

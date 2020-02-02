@@ -119,7 +119,7 @@ public class DBManager {
 
     public Cursor getGameList(){
         Cursor c = null;
-        String sql = "SELECT date,name FROM game AS a INNER JOIN player AS b ON a.winner = b._id ORDER BY date;";
+        String sql = "SELECT * FROM game AS a INNER JOIN player AS b ON a.winner = b._id ORDER BY date;";
         c = database.rawQuery(sql,null);
         return c;
     }

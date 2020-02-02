@@ -2,6 +2,7 @@ package com.rdeluca118.testmd;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -66,7 +67,13 @@ public class ItemListActivity extends AppCompatActivity {
         View recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+        DBManager dbm = new DBManager(getApplicationContext());
+        dbm.open();
+        Cursor c = dbm.getGameList();
+        DummyContent.loadData(c);
+        dbm.close();
     }
+
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
