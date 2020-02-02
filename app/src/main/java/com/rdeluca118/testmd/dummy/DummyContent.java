@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.rdeluca118.testmd.DBManager;
 /**
  * Helper class for providing sample content for user interfaces created by
  * Android template wizards.
@@ -12,7 +13,7 @@ import java.util.Map;
  * TODO: Replace all uses of this class before publishing your app.
  */
 public class DummyContent {
-
+    private DBManager dbm;
     /**
      * An array of sample (dummy) items.
      */
@@ -21,16 +22,23 @@ public class DummyContent {
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
-
-    private static final int COUNT = 25;
-
+    public static final Map<String, DummyItem> ITEM_MAP =
+            new HashMap<String, DummyItem>();
+//    SELECT date,name
+//    FROM game AS a
+//    INNER JOIN player AS b
+//    ON a.winner = b._id
+//    ORDER BY date;
     static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
-        }
+        // Add 3 sample items.
+        addItem(new DummyItem("1", "May 12 2019",
+                "Rich"));
+        addItem(new DummyItem("2", "June 22 2019",
+                "Rich"));
+        addItem(new DummyItem("3", "july 24 2019",
+                "Babe"));
     }
+
 
     private static void addItem(DummyItem item) {
         ITEMS.add(item);
