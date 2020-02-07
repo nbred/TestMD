@@ -16,7 +16,9 @@ import com.rdeluca118.testmd.DBManager;
  * <p>
  * TODO: Replace all uses of this class before publishing your app.
  */
-public class DummyContent {
+public class
+
+DummyContent {
     /**
      * An array of sample (dummy) items.
      */
@@ -53,6 +55,8 @@ public class DummyContent {
         builder.append("Details about Item: ").append(position);
         for (int i = 0; i < position; i++) {
             builder.append("\nMore details information here.");
+
+
         }
         return builder.toString();
     }

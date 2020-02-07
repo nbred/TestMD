@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String game_winner = "winner";
 
     // Creating game query
-    private static final String CREATE_GAME_TABLE = "create table " + TABLE_GAME + "(" + GAME_ID
+    private static final String CREATE_GAME_TABLE = "CREATE TABLE " + TABLE_GAME + "(" + GAME_ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, " + game_date + " DATETIME NOT NULL, " + game_player1
             + " INTEGER NOT NULL, " + game_player2 + " INTEGER NOT NULL, " + game_num_legs + " INTEGER, "
             + game_winner + " INTEGER, FOREIGN KEY('winner') REFERENCES 'player'('_id'));";
@@ -97,6 +97,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO \"player\" VALUES (1,'Rich',1,0);");
         db.execSQL("INSERT INTO \"player\" VALUES (2,'Babe',0,1);");
+        db.execSQL("INSERT INTO \"player\" VALUES (3,'Bob',0,0);");
+        db.execSQL("INSERT INTO \"player\" VALUES (4,'Jim',0,0);");
+        db.execSQL("INSERT INTO \"player\" VALUES (5,'Fred',0,0);");
+        db.execSQL("INSERT INTO \"player\" VALUES (6,'Joe',0,0);");
         db.execSQL("INSERT INTO 'game' VALUES (1,'2020/02/01 14:57:41',1,2,1,1);");
         db.execSQL("INSERT INTO 'leg' VALUES (1,1,1);");
         db.execSQL("INSERT INTO 'turn' VALUES (1,1,1,60,60,60);");

@@ -7,6 +7,11 @@ public class Player {
     private int losses;
     private boolean hasHammer;
 
+    public Player(){
+
+        hasHammer = false;
+    }
+
     public Player(String pName) {
         setName(pName);
         this.wins = 0;
@@ -37,6 +42,22 @@ public class Player {
     }
     public void setHammer(boolean has){
         this.hasHammer = has;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
     }
 }
 

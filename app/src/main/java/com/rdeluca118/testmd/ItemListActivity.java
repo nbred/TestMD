@@ -71,6 +71,7 @@ public class ItemListActivity extends AppCompatActivity {
         dbm.open();
         Cursor c = dbm.getGameList();
         DummyContent.loadData(c);
+        c.close();
         dbm.close();
     }
 

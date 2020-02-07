@@ -89,10 +89,20 @@ public class DBManager {
         return -1;
     }
 
-    public void postWins(int _id, @NotNull Boolean w){
-        if(w){
+    public Cursor getOnePLayer(int id) {
+        Cursor c = null;
+        String sql = String.format("select * from player where _id = %1d", id);
+        c = database.rawQuery(sql, null);
+        if (c.moveToFirst()) {
+            return (c);
+        }
+        return null;
+    }
+
+    public void postWins(int _id, @NotNull Boolean w) {
+        if (w) {
             database.execSQL("UPDATE player SET wins=wins + 1 WHERE _id=" + _id);
-        }else{
+        } else {
             database.execSQL("UPDATE player SET losses=losses + 1 WHERE _id=" + _id);
         }
     }
@@ -111,17 +121,30 @@ public class DBManager {
         theGame.setId((int) database.insert(dbHelper.TABLE_GAME, null, contentValue));
     }
 
-    public void updateGameWinner(int gameid, int winnerid){
+    public void updateGameWinner(int gameid, int winnerid) {
         String sql = String.format("UPDATE game SET winner=%1d  WHERE _id=%2d", winnerid, gameid);
-        Log.i("DartDB",sql);
+        Log.i("DartDB", sql);
         database.execSQL(sql);
     }
 
-    public Cursor getGameList(){
+    public Cursor getGameList() {
         Cursor c = null;
         String sql = "SELECT * FROM game AS a INNER JOIN player AS b ON a.winner = b._id ORDER BY date;";
-        c = database.rawQuery(sql,null);
-        return c;
+        c = database.rawQuery(sql, null);
+        if (c.moveToFirst()) {
+            return (c);
+        }
+        return null;
+    }
+
+    public Cursor getOneGame(int gameID) {
+        Cursor c = null;
+        String sql = String.format("select * from game where _id = %1d", gameID);
+        c = database.rawQuery(sql, null);
+        if (c.moveToFirst()) {
+            return (c);
+        }
+        return null;
     }
 
     // =============================================================================================
@@ -137,10 +160,20 @@ public class DBManager {
 
     public void update_leg(int id, int winner) {
         String sql = String.format("UPDATE leg SET winner=%1d WHERE _id=%2d", winner, id);
-        Log.i("DartDB",sql);
+        Log.i("DartDB", sql);
         database.execSQL(sql);
     }
 
+    // select * from leg where game_id = 1
+    public Cursor getLegsForGame(int game) {
+        Cursor c = null;
+        String sql = String.format("select * from leg where game_id = %1d", game);
+        c = database.rawQuery(sql, null);
+        if (c.moveToFirst()) {
+            return (c);
+        }
+        return null;
+    }
     // =============================================================================================
     // turn table operations
     // =============================================================================================
@@ -157,6 +190,15 @@ public class DBManager {
         database.insert(dbHelper.TABLE_TURN, null, contentValue);
     }
 
+    public Cursor getTurnsForLeg(int leg){
+        Cursor c = null;
+        String sql = String.format("select * from turn where leg_id = %1d", leg);
+        c = database.rawQuery(sql, null);
+        if (c.moveToFirst()) {
+            return (c);
+        }
+        return null;
+    }
     // =============================================================================================
     // =============================================================================================
 
@@ -172,49 +214,5 @@ public class DBManager {
 //        database.delete(DatabaseHelper.TABLE_NAME, DatabaseHelper._ID + "=" + _id, null);
     }
 
-    public static class Game {
 
-        private int game_id;
-        private String GameDate;
-        private Player Player1, Player2;
-        private int legs;
-        private int winnerId;
-
-        public Game(Player p1, Player p2, int maxlegs){
-            Date Game_date;
-            Player1 = p1;
-            Player2 = p2;
-
-            legs = maxlegs;
-
-            Game_date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            GameDate = sdf.format(Game_date);
-            winnerId = 0;
-        }
-
-        public String getDate(){
-            return GameDate;
-        }
-
-        public int[] getPlayersIds(){
-            int[] p = {Player1.getId(), Player2.getId()};
-            return p;
-        }
-        public int getNumLegs(){
-            return legs;
-        }
-        public void setId(int num){
-            game_id = num;
-        }
-        public int getId(){return game_id;}
-
-        public int getWinnerId() {
-            return winnerId;
-        }
-
-        public void setWinnerId(int winnerId) {
-            this.winnerId = winnerId;
-        }
-    }
 }

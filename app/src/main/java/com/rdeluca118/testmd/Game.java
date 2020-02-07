@@ -7,11 +7,12 @@ public class Game {
 
     private int game_id;
     private String GameDate;
-    private Player Player1, Player2;
+    private Player Player1;
+    private Player Player2;
     private int legs;
     private int winnerId;
 
-    public Game(Player p1, Player p2, int maxlegs){
+    public Game(Player p1, Player p2, int maxlegs) {
         Date Game_date;
         Player1 = p1;
         Player2 = p2;
@@ -24,21 +25,34 @@ public class Game {
         winnerId = 0;
     }
 
-    public String getDate(){
+    public String getDate() {
         return GameDate;
     }
 
-    public int[] getPlayersIds(){
+    public void setDate(String d) {
+        this.GameDate = d;
+    }
+
+    public int[] getPlayersIds() {
         int[] p = {Player1.getId(), Player2.getId()};
         return p;
     }
-    public int getNumLegs(){
+
+    public int getNumLegs() {
         return legs;
     }
-    public void setId(int num){
+
+    public void setMaxLegs(int m) {
+        this.legs = m;
+    }
+
+    public void setId(int num) {
         game_id = num;
     }
-    public int getId(){return game_id;}
+
+    public int getId() {
+        return game_id;
+    }
 
     public int getWinnerId() {
         return winnerId;
@@ -46,5 +60,21 @@ public class Game {
 
     public void setWinnerId(int winnerId) {
         this.winnerId = winnerId;
+    }
+
+    public Player getPlayer1() {
+        return this.Player1;
+    }
+
+    public void setPlayer1(Player p) {
+        this.Player1 = p;
+    }
+
+    public Player getPlayer2() {
+        return this.Player2;
+    }
+
+    public void setPlayer2(Player p) {
+        this.Player2 = p;
     }
 }
