@@ -7,20 +7,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_begin="300dp"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
-        android:id="@+id/item_detail"
+        android:id="@+id/winner_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="250dp"
         android:text="Winner"
-        app:layout_constraintEnd_toStartOf="@+id/looser_text"
+        app:layout_constraintEnd_toStartOf="@+id/looser_details"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/looser_text"
+        android:id="@+id/looser_details"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -28,6 +38,31 @@
         android:layout_marginEnd="16dp"
         android:text="Looser"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_detail"
+        app:layout_constraintStart_toEndOf="@+id/winner_detail"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/win_turn_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/title_item_detail"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/winner_detail" />
+
+    <TextView
+        android:id="@+id/loose_turn_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/title_item_detail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/looser_details" />
 </androidx.constraintlayout.widget.ConstraintLayout>

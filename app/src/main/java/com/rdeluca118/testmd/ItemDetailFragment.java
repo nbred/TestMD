@@ -17,8 +17,6 @@ import android.widget.TextView;
 
 import com.rdeluca118.testmd.dummy.DummyContent;
 
-import java.util.ArrayList;
-
 /**
  * A fragment representing a single Item detail screen.
  * This fragment is either contained in a {@link ItemListActivity}
@@ -67,6 +65,8 @@ public class ItemDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.my_item_detail, container, false);
 
+        Leg[] legs = null;
+        Turn[] turnArray = null;
         Player Player1, Player2;
         Player winner, looser;
         Game game;
@@ -82,13 +82,11 @@ public class ItemDetailFragment extends Fragment {
             int p2ID = c.getInt(3);
             c.close();
 
-            Player1 = getOnePlayer(dbm, p1ID);
+            Player1 = getAPlayer(dbm, p1ID);
             game.setPlayer1(Player1);
-            Player2 = getOnePlayer(dbm, p2ID);
+            Player2 = getAPlayer(dbm, p2ID);
             game.setPlayer2(Player2);
 
-//            winner = null;
-//            looser = null;
             int winnerID = game.getWinnerId();
             if (winnerID == p1ID) {
                 winner = Player1;
@@ -97,19 +95,27 @@ public class ItemDetailFragment extends Fragment {
                 winner = Player2;
                 looser = Player1;
             }
-            Leg[] legs = getLegs(dbm, game.getId());
+            legs = getLegs(dbm, game.getId());
             for (Leg i : legs) {
-                Turn[] t = getTurns(dbm, i.getLegId());
+                turnArray = getTurns(dbm, i.getLegId());
             }
 
             dbm.close();
-            // get legs of game _id mItem.id by leg id
-            // get turns of leg by leg id
 
             Spanned pane1 = Html.fromHtml("Win : <h2>" + winner.getName() + "</h2><br><p>Record:</p><p><h4>" + winner.getWins() + " W --- " + winner.getLosses() + " L</h4></p>");
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(pane1);
+            ((TextView) rootView.findViewById(R.id.winner_detail)).setText(pane1);
             Spanned pane2 = Html.fromHtml("Loss : <h2>" + looser.getName() + "</h2><br><p>Record:</p><p><h4>" + looser.getWins() + " W --- " + looser.getLosses() + " L</h4></p>");
-            ((TextView) rootView.findViewById(R.id.looser_text)).setText(pane2);
+            ((TextView) rootView.findViewById(R.id.looser_details)).setText(pane2);
+
+            TextView wText = rootView.findViewById(R.id.win_turn_text);
+            TextView lText = rootView.findViewById(R.id.loose_turn_text);
+            for (Turn x : turnArray) {
+                if (x.getPlayerId() == winnerID) {
+                    wText.append("\nTurn");
+                } else {
+                    lText.append("\nTurn");
+                }
+            }
         }
         // Show the dummy content as text in a TextView.
 
@@ -120,6 +126,9 @@ public class ItemDetailFragment extends Fragment {
         Player emptyPlayer = new Player();
         Game game = new Game(emptyPlayer, emptyPlayer, 0);
         Cursor c = dbm.getOneGame(gameID);
+        if (c == null) {
+            return null;
+        }
         game.setId(gameID);
         game.setDate(c.getString(1));
         game.setMaxLegs(c.getInt(4));
@@ -128,10 +137,13 @@ public class ItemDetailFragment extends Fragment {
         return game;
     }
 
-    private Player getOnePlayer(DBManager dbm, int playerID) {
+    private Player getAPlayer(DBManager dbm, int playerID) {
         Player p = new Player();
         Cursor c;
         c = dbm.getOnePLayer(playerID);
+        if (c == null) {
+            return null;
+        }
         p.setId(playerID);
         p.setName(c.getString(1));
         p.setWins(c.getInt(2));
@@ -141,46 +153,49 @@ public class ItemDetailFragment extends Fragment {
     }
 
     private Leg[] getLegs(DBManager d, int g) {
-        Leg[] l = {};
-       // ArrayList<Leg> l = new ArrayList<Leg>();
         Cursor c;
         int num;
 
         c = d.getLegsForGame(g);
-        num = c.getCount();
-        for (int i = 0; i < num; i++) {
-            //vehicles.add(new Car(...));
-            l[i] = new Leg(g);
-            l[i].setId(c.getInt(0));
-            try {
-                l[i].setWinnerID(c.getInt(2));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+        if (c == null) {
+            return null;
         }
+        num = c.getCount();
+        Leg[] legarray = new Leg[num];
+
+        for (int i = 0; i < num; i++) {
+            legarray[i] = new Leg(g);
+            legarray[i].setId(c.getInt(0));
+            legarray[i].setWinnerID(c.getInt(2));
+            c.moveToNext();
+        }
+
         c.close();
 
-        return l;
+        return legarray;
     }
 
     private Turn[] getTurns(DBManager d, int leg) {
-        Turn[] t = null;
         Cursor c;
         int num;
 
         c = d.getTurnsForLeg(leg);
+        if (c == null) {
+            return null;
+        }
         num = c.getCount();
+        Turn[] turnarray = new Turn[num];
         for (int i = 0; i < num; i++) {
-            t[i] = new Turn();
-            t[i].setTurnID(c.getInt(0));
-            t[i].setPlayerID(c.getInt(1));
-            t[i].setLegId(c.getInt(2));
-            t[i].setDart(1,c.getInt(3));
-            t[i].setDart(2,c.getInt(4));
-            t[i].setDart(3,c.getInt(5));
+            turnarray[i] = new Turn();
+            turnarray[i].setTurnID(c.getInt(0));
+            turnarray[i].setPlayerID(c.getInt(1));
+            turnarray[i].setLegId(c.getInt(2));
+            turnarray[i].setDart(1, c.getInt(3));
+            turnarray[i].setDart(2, c.getInt(4));
+            turnarray[i].setDart(3, c.getInt(5));
+            c.moveToNext();
         }
         c.close();
-        return t;
+        return turnarray;
     }
 }
