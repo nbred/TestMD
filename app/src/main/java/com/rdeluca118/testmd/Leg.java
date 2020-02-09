@@ -5,10 +5,12 @@ public class Leg {
     private int gameID;
     private int winnerID;
     private int hammer;
+    private int gameLeg;
 
     public Leg(int gameid) {
         this.gameID = gameid;
         this.winnerID = -1;
+        this.gameLeg = 0;
     }
 
     public int getGameId() {
@@ -37,5 +39,13 @@ public class Leg {
 
     public void setWinnerID(int winnerID) {
         this.winnerID = winnerID;
+    }
+
+    public int getGameLeg() {
+        return gameLeg;
+    }
+
+    public void setGameLeg(int gameLeg) {
+        this.gameLeg = gameLeg;
     }
 }

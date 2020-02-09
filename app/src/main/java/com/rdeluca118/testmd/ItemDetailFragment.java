@@ -95,9 +95,11 @@ public class ItemDetailFragment extends Fragment {
                 winner = Player2;
                 looser = Player1;
             }
+           int ii = 0;
             legs = getLegs(dbm, game.getId());
             for (Leg i : legs) {
-                turnArray = getTurns(dbm, i.getLegId());
+                ii++;
+                turnArray = getTurns(dbm, i.getLegId(),ii);
             }
 
             dbm.close();
@@ -108,18 +110,27 @@ public class ItemDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.looser_details)).setText(pane2);
 
             TextView wText = rootView.findViewById(R.id.win_turn_text);
+            wText.setText("");
             TextView lText = rootView.findViewById(R.id.loose_turn_text);
+            lText.setText("");
             for (Turn x : turnArray) {
                 if (x.getPlayerId() == winnerID) {
-                    wText.append("\nTurn");
+                    wText.append(makeTurnString(x));
                 } else {
-                    lText.append("\nTurn");
+                    lText.append(makeTurnString(x));
                 }
             }
         }
         // Show the dummy content as text in a TextView.
 
         return rootView;
+    }
+    private String makeTurnString(Turn turn){
+        String str;
+        int[] d;
+        d = turn.getDarts();
+        str = "Leg: " + turn.getGameLeg() + " = " + d[0] + " - " + d[1] + " - " + d[2] + '\n';
+        return str;
     }
 
     private Game getTheGame(DBManager dbm, int gameID) {
@@ -175,7 +186,7 @@ public class ItemDetailFragment extends Fragment {
         return legarray;
     }
 
-    private Turn[] getTurns(DBManager d, int leg) {
+    private Turn[] getTurns(DBManager d, int leg, int gameLeg) {
         Cursor c;
         int num;
 
@@ -193,6 +204,7 @@ public class ItemDetailFragment extends Fragment {
             turnarray[i].setDart(1, c.getInt(3));
             turnarray[i].setDart(2, c.getInt(4));
             turnarray[i].setDart(3, c.getInt(5));
+            turnarray[i].setGameLeg(gameLeg);
             c.moveToNext();
         }
         c.close();

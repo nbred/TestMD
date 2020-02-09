@@ -4,17 +4,20 @@ public class Turn {
     private int turnID;
     private int playerID;
     private int legID;
+    private int gameLeg;
     private int dartOne;
     private int dartTwo;
     private int dartThree;
 
     public Turn() {
         this.turnID = 0;
+        this.gameLeg = 0;
     }
 
     public Turn(int pID, int lid) {
         this.playerID = pID;
         this.legID = lid;
+        this.gameLeg = 0;
     }
 
     public int getPlayerId() {
@@ -60,5 +63,13 @@ public class Turn {
 
     public void setTurnID(int turnID) {
         this.turnID = turnID;
+    }
+
+    public int getGameLeg() {
+        return gameLeg;
+    }
+
+    public void setGameLeg(int gameLeg) {
+        this.gameLeg = gameLeg;
     }
 }
