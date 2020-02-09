@@ -63,7 +63,7 @@ public class ItemDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.my_item_detail, container, false);
+        View rootView = inflater.inflate(R.layout.my_item_layout_2, container, false);
 
         Leg[] legs = null;
         Turn[] turnArray = null;
